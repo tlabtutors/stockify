@@ -1,0 +1,60 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model InventoryItem {
+  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Basic Information
+  itemName                  String
+  itemType                  String  @default("Goods")  //default to goods
+  sku                       String   @unique
+  unit                      String
+  returnable                Boolean  @default(false)
+  capitalAsset              Boolean  @default(false)
+  dimension                 String?
+  dimensionUnit             String?
+  itemWeight                Float?
+  itemWeightUnit            String?
+  manufacturer              String?
+  brand                     String?
+
+  // Sales Information
+  sellingPrice              Float?
+  salesCurrency             String?
+  salesAccount              String?
+  salesItemDescription      String?
+
+  // Purchase Information
+  costPrice                 Float?
+  purchaseCurrency          String?
+  purchaseAccount           String?
+  purchaseItemDescription   String?
+  preferredVendor           String?
+
+  // Inventory Tracking
+  trackInventory            Boolean  @default(true)
+  inventoryAccount          String?
+  inventoryValuation        String?
+  openingStock              Int      @default(0)
+  stockRate                 Float?
+  reorderPoint              Int?
+
+  // Images (embedded documents)
+  images                    Image[]
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+}
+
+type Image {
+  id              String   @map("_id") @db.ObjectId
+  url             String
+  isPrimary       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
