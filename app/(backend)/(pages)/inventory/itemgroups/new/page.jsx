@@ -1,7 +1,7 @@
 import React from "react";
 import DsFormHeader from "@/components/Forms/DsFormHeader";
 import { X } from "lucide-react";
-import InventoryItemForm from "@/components/Forms/InventoryItemForm";
+import NewItemEntryForm from "@/components/Forms/NewItemEntryForm";
 
 const NewItemsGroup = () => {
   return (
@@ -15,7 +15,7 @@ const NewItemsGroup = () => {
           </button>
         }
       />
-      <InventoryItemForm />
+      <NewItemEntryForm />
     </div>
   );
 };
