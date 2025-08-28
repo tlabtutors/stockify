@@ -5,11 +5,11 @@ import Button from "@/components/custom/Button";
 
 export default function SquareOne() {
   return (
-    <section className="flex flex-col md:w-[1000px] m-auto md:flex-row items-center justify-center md:justify-between gap-10 px-6 md:px-16 py-12 ">
+    <section className="flex flex-col md:w-[1200px] m-auto md:flex-row items-center justify-center md:justify-between gap-10 px-6 md:px-16 py-12 ">
       {/* Left Image */}
       <div className="w-full md:w-1/2 flex justify-center">
         <Image
-          src="/images/1.jpg" // replace with your uploaded image in /public
+          src="/images/1.jpg"
           alt="Driver illustration"
           width={600}
           height={400}

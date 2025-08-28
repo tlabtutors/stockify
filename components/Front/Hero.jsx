@@ -37,7 +37,7 @@ const Hero = () => {
 
       {/* Hero Content */}
       <div className="container mx-auto text-center text-gray-800 px-6 md:px-16">
-        <h1 className="w-full text-3xl font-bold mb-4 leading-snug p-auto md:px-64">
+        <h1 className="w-full text-3xl md:text-5xl font-bold mb-4 leading-snug p-auto md:px-64">
           Smart Inventory Management, Simplified for Business Growth.
         </h1>
 

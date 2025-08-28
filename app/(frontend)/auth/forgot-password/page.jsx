@@ -10,7 +10,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex flex-col space-y-3 items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-[300px] w-full p-4 bg-white shadow-lg rounded-lg">
+      <div className="max-w-[500px] w-full p-4 bg-white shadow-lg rounded-lg">
         <div className="flex justify-center mb-4">
           <img src="/images/logo.png" alt="Stockiffy Logo" className="h-16" />
         </div>
