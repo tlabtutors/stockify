@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Stockiffy Inventory with Next 15",
-  description: "Stockiffy Inventory App with Next 15",
+  title: "Stockiffy Inventory System",
+  description: "Stockiffy Inventory Application",
 };
 
 export default function RootLayout({ children }) {
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="">
+        <div>
           {children}
           <Toaster position="top-center" />
         </div>

@@ -1,11 +1,16 @@
-import Link from "next/link";
+import DashboardFooter from "@/components/DashboardFooter";
+import Hero from "@/components/Front/Hero";
+import Navigation from "@/components/Front/Navigation";
+import SquareOne from "./(frontend)/SquareOne";
+import SquareTwo from "./(frontend)/SquareTwo";
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center">
-      <h1>Stockify Inventory Management System</h1>
-      <Link href={"/dashboard/home"} className="flex justify-center">
-        Dashboard
-      </Link>
+    <div className="flex flex-col justify-center">
+      <Navigation />
+      <Hero />
+      <SquareOne />
+      <SquareTwo />
+      <DashboardFooter />
     </div>
   );
 }

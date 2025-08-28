@@ -144,4 +144,32 @@
   .selectBorder {
     @apply w-[180px] border border-gray-400 rounded focus:border-gray-600 focus:ring-0 focus:ring-offset-0;
   }
+
+.btn-primary {
+  @apply bg-[#009688] text-white px-4 py-1 rounded-[5px] transition-all duration-200 ease-in-out;
+}
+.btn-primary:hover {
+  @apply bg-gradient-to-r from-[#00bfa5] to-[#1fe7d3] shadow-lg transform scale-105;
+}
+.btn-secondary {
+  @apply bg-white border border-[#009688] text-gray-800 px-4 py-1 rounded-[5px] hover:bg-[#1fe7d3] hover:border-[#1fe7d3] transition-all duration-150;
+}
+.btn-secondary:hover {
+  @apply bg-gradient-to-r from-[#00d8c8] to-[#1fe7d3]  border-transparent shadow-lg transform scale-105;
+}
+.btn-link {
+  @apply text-[#009688] uppercase text-[12px] transition-all duration-200 ease-in-out;
+}
+
+.btn-link:hover {
+  @apply bg-gradient-to-r from-[#00bfa5] to-[#0db4a3] bg-clip-text text-transparent shadow-sm transform scale-105;
+}
+.btn-rectangle {
+  @apply bg-[#009688] uppercase text-[12px] text-white px-4 py-1 hover:bg-[#0db4a3] transition-all duration-150;
+}
+
+.btn-rectangle:hover {
+  @apply bg-gradient-to-r from-[#00bfa5] to-[#0db4a3] shadow-md transform scale-105;
+}
+   
 }
