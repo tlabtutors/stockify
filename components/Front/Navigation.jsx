@@ -3,7 +3,7 @@ import Button from "../custom/Button";
 
 const Navigation = () => {
   return (
-    <nav className="bg-white p-4 shadow-md">
+    <nav className="bg-white p-4">
       <div className="w-full mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-6">
           <div className="flex h-6 justify-between items-center space-x-1">
