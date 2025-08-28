@@ -2,7 +2,7 @@ import Button from "../custom/Button";
 
 const Hero = () => {
   return (
-    <section className="relative flex min-h-[600px] justify-center items-center overflow-hidden ">
+    <section className="relative flex min-h-[500px] justify-center items-center overflow-hidden ">
       {/* Background with SVG Animation */}
       <div className="bg-[#f3fcfb] absolute inset-0 -z-10">
         <svg
