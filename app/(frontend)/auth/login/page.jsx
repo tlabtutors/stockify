@@ -44,8 +44,9 @@ const Login = () => {
         </div>
         <Button className="w-full mb-1">Login</Button>
         <div className="flex justify-center space-x-2 mb-4">
-          <button className="bg-gray-200 p-2 rounded flex gap-x-2 items-center">
+          <button className="bg-emerald-100 p-2 rounded-sm flex gap-x-2 w-full justify-center items-center">
             <FcGoogle size={20} className="text-[#009688]" />
+            <span>Sign In with Google</span>
           </button>
         </div>
         <Link
