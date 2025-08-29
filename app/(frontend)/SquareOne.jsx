@@ -31,14 +31,14 @@ export default function SquareOne() {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
-          <Button>Get Started</Button>
+          <Button href={`/auth/signup`}>Get Started</Button>
 
-          <a
+          {/* <a
             href="#"
             className="text-black underline underline-offset-2 hover:text-gray-700"
           >
             Already have an account? Sign in
-          </a>
+          </a> */}
         </div>
       </div>
     </section>

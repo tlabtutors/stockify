@@ -46,7 +46,7 @@ const Hero = () => {
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-          <Button variant="primary" className="ml-4">
+          <Button href={`/auth/signup`} variant="primary" className="ml-4">
             Get Started for Free
           </Button>
 

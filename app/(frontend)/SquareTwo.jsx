@@ -21,13 +21,13 @@ export default function SquareTwo() {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
-          <Button>Get Started</Button>
-          <a
+          <Button href={`/auth/signup`}>Get Started</Button>
+          {/* <a
             href="#"
             className="text-black underline underline-offset-2 hover:text-gray-700"
           >
             Already have an account? Sign in
-          </a>
+          </a> */}
         </div>
       </div>
       {/* Right Content */}

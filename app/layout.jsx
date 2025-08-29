@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/shadcn/ui/sonner";
+import { auth } from "@/auth";
+import SessionProvider from "@/context/SessionProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -16,15 +18,19 @@ export const metadata = {
   description: "Stockiffy Inventory Application",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div>
-          {children}
-          <Toaster position="top-center" />
+          <SessionProvider session={session}>
+            {children}
+            <Toaster position="top-center" />
+          </SessionProvider>
         </div>
       </body>
     </html>
