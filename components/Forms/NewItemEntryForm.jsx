@@ -120,7 +120,7 @@ const NewItemEntryForm = () => {
         setImages([]); // clear images
         // redirect after short delay
         setTimeout(() => {
-          router.push("/inventory/items");
+          router.push("/dashbaord/inventory/items");
         }, 1200);
       }
     } catch (err) {

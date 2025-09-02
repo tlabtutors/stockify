@@ -5,7 +5,7 @@ import Button from "@/components/custom/Button";
 
 export default function SquareOne() {
   return (
-    <section className="flex flex-col md:w-[1200px] m-auto md:flex-row items-center justify-center md:justify-between gap-10 px-6 md:px-16 py-12 ">
+    <section className="flex flex-col md:max-w-[1200px] m-auto md:flex-row items-center justify-center md:justify-between gap-10 p-12">
       {/* Left Image */}
       <div className="w-full md:w-1/2 flex justify-center">
         <Image
@@ -32,13 +32,6 @@ export default function SquareOne() {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Button href={`/auth/signup`}>Get Started</Button>
-
-          {/* <a
-            href="#"
-            className="text-black underline underline-offset-2 hover:text-gray-700"
-          >
-            Already have an account? Sign in
-          </a> */}
         </div>
       </div>
     </section>

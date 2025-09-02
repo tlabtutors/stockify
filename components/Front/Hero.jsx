@@ -2,7 +2,7 @@ import Button from "../custom/Button";
 
 const Hero = () => {
   return (
-    <section className="relative flex min-h-[500px] justify-center items-center overflow-hidden ">
+    <section className="relative flex min-h-[500px] justify-center items-center overflow-hidden md:px-16 lg:px-24">
       {/* Background with SVG Animation */}
       <div className="bg-[#f3fcfb] absolute inset-0 -z-10">
         <svg
@@ -35,12 +35,12 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="container mx-auto text-center text-gray-800 px-6 md:px-16">
-        <h1 className="w-full text-3xl md:text-4xl font-bold mb-4 leading-snug p-auto md:px-64">
+      <div className="container mx-auto text-center text-gray-800">
+        <h1 className="w-full text-3xl md:text-4xl font-bold mb-4 leading-snug">
           Smart Inventory Management, Simplified for Business Growth.
         </h1>
 
-        <p className="mb-6 p-auto md:px-64">
+        <p className="mb-6">
           Track your stock, sales, and supply chain effortlessly—while keeping
           costs low.
         </p>

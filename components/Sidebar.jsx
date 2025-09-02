@@ -20,10 +20,11 @@ const Sidebar = () => {
   const [openMenus, setOpenMenus] = useState({});
   const pathname = usePathname();
   const router = useRouter();
+  const basePath = "/dashboard";
   const navItems = [
     {
       label: "Home",
-      href: "/dashboard/home",
+      href: "/home",
       icon: <FiHome className="w-5 h-5" />,
     },
     {
@@ -79,23 +80,20 @@ const Sidebar = () => {
     },
   ];
 
-  const toggleMenu = (label) => {
-    setOpenMenus((prev) => ({
-      ...prev,
-      [label]: !prev[label],
-    }));
-  };
+  const prependBasePath = (href) => `${basePath}${href}`;
 
   const handleNav = (href) => {
-    router.push(href);
+    router.push(prependBasePath(href));
   };
-  const isActive = (href) => pathname === href;
+
+  const isActive = (href) => pathname === prependBasePath(href);
+
   return (
     <aside className="TW-Sidebar">
       <div>
         <div className="flex px-3 py-2 bg-slate-900 text-2xl">
           <Link
-            href={"/dashboard/home"}
+            href={prependBasePath("/home")}
             className="flex gap-2 text-gray-300 items-center"
           >
             <MdOutlineShoppingCartCheckout size={20} />
@@ -113,13 +111,18 @@ const Sidebar = () => {
                 item.children.some((child) => isActive(child.href)));
 
             return (
-              <div key={item.label} className="space-y-1 ">
+              <div key={item.label} className="space-y-1">
                 <button
                   className={`flex w-full items-center justify-between px-3 py-2 text-left rounded-md transition-colors duration-200 ${
                     parentIsActive ? "bg-blue-600" : "hover:bg-gray-800"
                   }`}
                   onClick={() =>
-                    hasChildren ? toggleMenu(item.label) : handleNav(item.href)
+                    hasChildren
+                      ? setOpenMenus((prev) => ({
+                          ...prev,
+                          [item.label]: !prev[item.label],
+                        }))
+                      : handleNav(item.href)
                   }
                 >
                   <div className="flex w-full justify-start items-center space-x-3">

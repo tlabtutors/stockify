@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/prisma/prisma";
 import { writeFile, unlink } from "fs/promises";
-import { tenant } from "@/lib/tenantPrisma";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { ObjectId } from "bson";
@@ -34,9 +33,9 @@ export async function POST(req) {
       trackInventory:
         cleanData.trackInventory === "true" ||
         cleanData.trackInventory === true,
-      itemWeight: parseFloat(cleanData.itemWeight) || 0,
-      sellingPrice: parseFloat(cleanData.sellingPrice) || 0,
-      costPrice: parseFloat(cleanData.costPrice) || 0,
+      itemWeight: parseFloat(cleanData.itemWeight),
+      sellingPrice: parseFloat(cleanData.sellingPrice),
+      costPrice: parseFloat(cleanData.costPrice),
       openingStock: parseInt(cleanData.openingStock) || 0,
       stockRate: parseFloat(cleanData.stockRate) || 0,
       reorderPoint: parseInt(cleanData.reorderPoint) || 0,
@@ -54,6 +53,7 @@ export async function POST(req) {
               fileName
             );
             await writeFile(uploadPath, Buffer.from(buffer));
+
             return {
               id: new ObjectId().toString(),
               url: `/uploaded_images/${fileName}`,
@@ -72,9 +72,9 @@ export async function POST(req) {
       images,
     };
 
-    const item = await (
-      await tenant("inventoryItem", req)
-    ).create({ data: transformedData });
+    const item = await prisma.inventoryItem.create({
+      data: transformedData,
+    });
 
     return NextResponse.json({
       ok: true,
@@ -87,19 +87,16 @@ export async function POST(req) {
   }
 }
 
-/* ----------------  List OR Single Item (Tenant-aware) ---------------- */
+/* ----------------  List OR Single Item ---------------- */
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 
-    const inventoryItem = await tenant("inventoryItem", req);
-
     // Fetch single item by ID
     if (id) {
-      const item = await inventoryItem.findUnique({
+      const item = await prisma.inventoryItem.findUnique({
         where: { id },
-        include: { images: true },
       });
 
       if (!item) {
@@ -123,20 +120,20 @@ export async function GET(req) {
     const where = search
       ? {
           OR: [
-            { itemName: { contains: search, mode: "insensitive" } },
+            { name: { contains: search, mode: "insensitive" } },
             { sku: { contains: search, mode: "insensitive" } },
           ],
         }
       : {};
 
     const [items, total] = await Promise.all([
-      inventoryItem.findMany({
+      prisma.inventoryItem.findMany({
         where,
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },
       }),
-      inventoryItem.findMany({ where }).then((res) => res.length),
+      prisma.inventoryItem.count({ where }),
     ]);
 
     const transformedItems = items.map((item) => ({
@@ -166,8 +163,7 @@ export async function GET(req) {
     return NextResponse.json({ ok: false, error: error.message, status: 500 });
   }
 }
-
-/* ---------------- Update Inventory Item (Tenant-aware) ---------------- */
+/* ---------------- Update Inventory Item ---------------- */
 export async function PUT(req) {
   try {
     const formData = await req.formData();
@@ -181,17 +177,15 @@ export async function PUT(req) {
       });
     }
 
-    const inventoryItem = await tenant("inventoryItem", req);
-
     // Get existing item to compare images
-    const existingItem = await inventoryItem.findFirst({
+    const existingItem = await prisma.inventoryItem.findUnique({
       where: { id },
     });
 
     if (!existingItem) {
       return NextResponse.json({
         ok: false,
-        error: "Item not found or you are not authorized",
+        error: "Item not found",
         status: 404,
       });
     }
@@ -201,13 +195,15 @@ export async function PUT(req) {
     const imageMetadata = formData
       .getAll("imageMetadata")
       .map((m) => JSON.parse(m));
+
+    // Get existing images from form data
     const existingImagesData = formData
       .getAll("existingImages")
       .map((img) => JSON.parse(img));
 
-    // Exclude ID and image-related fields
+    // EXCLUDE THE ID FIELD FROM THE DATA
     const {
-      id: _,
+      id: _, // This extracts and ignores the id field
       dim_length,
       dim_width,
       dim_height,
@@ -262,24 +258,23 @@ export async function PUT(req) {
 
     // Combine existing and new images
     const allImages = [...existingImagesData, ...newImages];
-
     // Ensure only one primary image
     const primaryImages = allImages.filter((img) => img.isPrimary);
     if (primaryImages.length > 1) {
+      // If multiple primary images, keep only the first one as primary
       allImages.forEach((img, index) => {
         if (index > 0) img.isPrimary = false;
       });
     } else if (primaryImages.length === 0 && allImages.length > 0) {
+      // If no primary image, set the first one as primary
       allImages[0].isPrimary = true;
     }
-
     const transformedData = {
       ...processedData,
       dimension: `${dim_length}x${dim_width}x${dim_height}`,
       images: allImages,
     };
-
-    // Delete removed images from filesystem
+    // Delete removed images from filesystem (with existence check)
     if (existingItem.images && existingItem.images.length > 0) {
       const removedImages = existingItem.images.filter(
         (existingImg) =>
@@ -289,10 +284,12 @@ export async function PUT(req) {
       for (const img of removedImages) {
         try {
           const filePath = path.join(process.cwd(), "public", img.url);
+          // Check if file exists before trying to delete
           try {
             await fs.access(filePath);
             await unlink(filePath);
-          } catch {
+          } catch (accessError) {
+            // File doesn't exist, skip deletion
             console.log(`File ${img.url} doesn't exist, skipping deletion`);
           }
         } catch (error) {
@@ -301,8 +298,13 @@ export async function PUT(req) {
       }
     }
 
-    // Update item using tenant-aware Prisma
-    const item = await inventoryItem.update({
+    // Add debug logging to see what's being sent to Prisma
+    console.log(
+      "Updating item with data:",
+      JSON.stringify(transformedData, null, 2)
+    );
+
+    const item = await prisma.inventoryItem.update({
       where: { id },
       data: transformedData,
     });

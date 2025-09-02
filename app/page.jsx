@@ -3,7 +3,7 @@ import Hero from "@/components/Front/Hero";
 import Navigation from "@/components/Front/Navigation";
 import SquareOne from "./(frontend)/SquareOne";
 import SquareTwo from "./(frontend)/SquareTwo";
-import PricingPlans from "@/components/Front/PricingPlans";
+import PricingPlan from "@/components/Front/PricingPlan";
 export default function Home() {
   return (
     <div className="flex flex-col justify-center">
@@ -11,7 +11,7 @@ export default function Home() {
       <Hero />
       <SquareOne />
       <SquareTwo />
-      <PricingPlans />
+      <PricingPlan />
       <DashboardFooter />
     </div>
   );

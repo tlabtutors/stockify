@@ -1,20 +1,19 @@
 import { NextResponse } from "next/server";
-import { tenant } from "@/lib/tenantPrisma";
+import { prisma } from "@/prisma/prisma";
 
-/* ---------------- GET Single Item (Tenant-aware) ---------------- */
+// GET single item
 export async function GET(req, { params }) {
   try {
     const { id } = params;
-    const inventoryItem = await tenant("inventoryItem", req);
 
-    const item = await inventoryItem.findFirst({
+    const item = await prisma.inventoryItem.findUnique({
       where: { id },
       include: { images: true }, // include images if needed
     });
 
     if (!item) {
       return NextResponse.json(
-        { ok: false, error: "Item not found or you are not authorized" },
+        { ok: false, error: "Item not found" },
         { status: 404 }
       );
     }
@@ -29,22 +28,13 @@ export async function GET(req, { params }) {
   }
 }
 
-/* ---------------- DELETE Item (Tenant-aware) ---------------- */
+//  DELETE item
 export async function DELETE(req, { params }) {
   try {
     const { id } = params;
-    const inventoryItem = await tenant("inventoryItem", req);
-
-    // Ensure only the user's company item can be deleted
-    const existingItem = await inventoryItem.findFirst({ where: { id } });
-    if (!existingItem) {
-      return NextResponse.json(
-        { ok: false, error: "Item not found or you are not authorized" },
-        { status: 404 }
-      );
-    }
-
-    await inventoryItem.delete({ where: { id } });
+    await prisma.inventoryItem.delete({
+      where: { id },
+    });
 
     return NextResponse.json({
       ok: true,
@@ -58,4 +48,3 @@ export async function DELETE(req, { params }) {
     );
   }
 }
-

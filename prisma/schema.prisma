@@ -7,12 +7,96 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
+/// =========================
+///  User & Company Models
+/// =========================
+model User {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  // id            String          @id @map("_id") @db.ObjectId
+  companyId      String?         @db.ObjectId
+  company        Company?        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name           String?
+  email          String?         @unique
+  emailVerified  DateTime?
+  image          String?
+  password       String?
+  phoneNumber    String?  
+  role           UserRole        @default(USER)
+  verifyToken    String?
+  verifyTokenExp DateTime?
+  resetToken     String?
+  resetTokenExp  DateTime?
+  accounts       Account[]
+  sessions       Session[]
+  inventory      InventoryItem[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Company {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  name      String           @unique
+  domain    String           @unique
+  users     User[]
+  inventory InventoryItem[]  // ✅ Added opposite side of relation
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+/// =========================
+///  NextAuth Models
+/// =========================
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?   // ✅ Fixed: removed @db.Text
+  access_token      String?   // ✅ Fixed
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?   // ✅ Fixed
+  session_state     String?
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+}
+/// ------------------
+/// Inventory Models
+/// ------------------
 model InventoryItem {
   id                        String   @id @default(auto()) @map("_id") @db.ObjectId
-
+  // Tenant Relation
+  companyId                 String?  @db.ObjectId
+  company                   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  // Optional: user-specific ownership (like assigned to a person)
+  userId                    String?  // Changed to String to match User.id
+  user                      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   // Basic Information
   itemName                  String
-  itemType                  String  @default("Goods")  //default to goods
+  itemType                  String  @default("Goods")  
   sku                       String   @unique
   unit                      String
   returnable                Boolean  @default(false)
@@ -23,20 +107,17 @@ model InventoryItem {
   itemWeightUnit            String?
   manufacturer              String?
   brand                     String?
-
   // Sales Information
   sellingPrice              Float?
   salesCurrency             String?
   salesAccount              String?
   salesItemDescription      String?
-
   // Purchase Information
   costPrice                 Float?
   purchaseCurrency          String?
   purchaseAccount           String?
   purchaseItemDescription   String?
   preferredVendor           String?
-
   // Inventory Tracking
   trackInventory            Boolean  @default(true)
   inventoryAccount          String?
@@ -44,8 +125,7 @@ model InventoryItem {
   openingStock              Int      @default(0)
   stockRate                 Float?
   reorderPoint              Int?
-
-  // Images (embedded documents)
+  // Images
   images                    Image[]
   createdAt                 DateTime @default(now())
   updatedAt                 DateTime @updatedAt
@@ -57,4 +137,3 @@ type Image {
   isPrimary       Boolean  @default(false)
   createdAt       DateTime @default(now())
 }
-

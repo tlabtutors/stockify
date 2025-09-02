@@ -175,12 +175,12 @@ const pricingData = {
   },
 };
 
-export default function PricingPlans() {
+export default function PricingPlan() {
   const [active, setActive] = useState("Monthly");
   const plans = pricingData[active];
 
   return (
-    <div className="w-full md:w-[700px] m-auto mt-10 flex flex-col items-center py-4 text-[12px]">
+    <div className="w-full md:w-[900px] m-auto mt-10 flex flex-col items-center py-4 text-[12px]">
       <h2 className="text-xl font-semibold mb-6">
         Start your 15 days free trial. Your Card won't be charged During this
         period

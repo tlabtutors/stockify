@@ -97,7 +97,7 @@ export default function InventoryItemList() {
   }, [page, search]);
 
   const handleItemClick = (id) => {
-    router.push(`/inventory/itemDetails/${id}`);
+    router.push(`/dashboard/inventory/itemDetails/${id}`);
   };
 
   const handleCheckboxChange = (id) => {

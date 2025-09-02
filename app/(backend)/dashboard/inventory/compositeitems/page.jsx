@@ -5,20 +5,21 @@ import ItemsCardContainer from "@/components/ItemsCardContainer";
 import { FaPlus } from "react-icons/fa6";
 import { BsThreeDots } from "react-icons/bs";
 import Tooltip from "@/components/Tooltip";
+
 const cardData = [
   {
     title: "Item Groups",
     image: "/images/item1.png",
     description: "Create multiple variants of the same item using Item Groups",
     linkText: "New Item Group",
-    href: "/inventory/itemgroups/new",
+    href: "/dashboard/inventory/itemgroups/new",
   },
   {
     title: "Items",
     image: "/images/item2.png",
     description: "Create standalone items and services that you buy and sell",
     linkText: "New Item",
-    href: "/inventory/items/new",
+    href: "/dashboard/inventory/items/new",
   },
   {
     title: "Composite Items",
@@ -26,14 +27,14 @@ const cardData = [
     description:
       "Group different items together and sell them as a single item",
     linkText: "New Composite Item",
-    href: "/inventory/compositeitems/new",
+    href: "/dashboard/inventory/compositeitems/new",
   },
   {
     title: "Price Lists",
     image: "/images/item4.png",
     description: "Tweak your item prices for specific contacts or transactions",
     linkText: "Enable Now",
-    href: "/inventory/pricelist/new",
+    href: "/dashboard/inventory/pricelist/new",
   },
   // Add more cards as needed
 ];
@@ -43,7 +44,7 @@ const Items = () => {
     <div className="flex flex-col w-full justify-center items-center  mt-20">
       <DsFormHeader
         title="All Composite Items"
-        href={`/inventory/compositeitems/new`}
+        href={`/dashboard/dashboard/inventory/compositeitems/new`}
         elem={
           <div className="flex justify-between items-center gap-x-1">
             <Tooltip content="Create New Item">

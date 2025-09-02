@@ -1,8 +1,8 @@
 // auth.config.js
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-//import { LoginSchema } from "./schemas";
-import { prisma } from "./prisma/prisma";
+import { LoginSchema } from "../schemas";
+import { prisma } from "../prisma/prisma";
 import bcrypt from "bcryptjs";
 
 const authConfig = {

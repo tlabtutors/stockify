@@ -1,12 +1,37 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import EmailValidation from "@/utils/EmailValidation";
 import Button from "@/components/custom/Button";
+import { forgotPassword } from "@/actions/forgotPassword";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleRequest = async () => {
+    if (!isEmailValid) return;
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const res = await forgotPassword({ email });
+
+      if (res?.success) {
+        setMessage(res.message);
+      } else {
+        setMessage(res.message || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col space-y-3 items-center justify-center min-h-screen bg-gray-100">
@@ -28,14 +53,29 @@ const ForgotPassword = () => {
           We'll send you a reset code right away!
         </h6>
 
+        {message && (
+          <p
+            className={`text-center text-xs mb-2 ${
+              message.toLowerCase().includes("not found") ||
+              message.toLowerCase().includes("error")
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+
         <Button
+          onClick={handleRequest}
           className={`w-full bg-[#009688] text-white py-2 rounded mb-4 hover:bg-[#0db4a3] ${
-            !isEmailValid ? "opacity-50 cursor-not-allowed" : ""
+            !isEmailValid || loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
-          disabled={!isEmailValid}
+          disabled={!isEmailValid || loading}
         >
-          Request Now!
+          {loading ? "Sending..." : "Request Now!"}
         </Button>
+
         <Link
           href="/auth/login"
           className="text-gray-700 hover:underline text-center block text-xs"

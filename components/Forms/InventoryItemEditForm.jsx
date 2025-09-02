@@ -201,7 +201,7 @@ const InventoryItemEditForm = () => {
         toast.success(data.msg);
         // redirect after short delay
         setTimeout(() => {
-          router.push("/inventory/items");
+          router.push("/dashboard/inventory/items");
         }, 1200);
       }
     } catch (err) {
@@ -833,7 +833,7 @@ const InventoryItemEditForm = () => {
             <button
               type="button"
               className="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 px-2 py-2 rounded-md font-medium"
-              onClick={() => router.push("/inventory/items")}
+              onClick={() => router.push("/dashboard/inventory/items")}
             >
               Cancel
             </button>

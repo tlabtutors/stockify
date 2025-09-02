@@ -11,7 +11,7 @@ const Items = () => {
     <div className="flex flex-col w-full justify-center items-center  mt-20">
       <DsFormHeader
         title="All Items"
-        href={`/inventory/items/new`}
+        href={`/dashboard/inventory/items/new`}
         elem={
           <div className="flex justify-between items-center gap-x-1">
             <Tooltip content="Create New Item">

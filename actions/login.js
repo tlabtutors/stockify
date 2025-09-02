@@ -1,7 +1,7 @@
 "use server";
 import { LoginSchema } from "@/schemas";
 import { prisma } from "@/prisma/prisma";
-import { signIn } from "@/auth";
+import { signIn } from "@/auth/auth";
 import { AuthError } from "next-auth";
 
 export const login = async (data) => {
@@ -10,15 +10,17 @@ export const login = async (data) => {
     return { error: "Invalid input data" };
   }
   const { email, password } = validatedData;
-  const userExists = await prisma.user.findFirst({ where: { email } });
+  const userExists = await prisma.user.findUnique({ where: { email } });
+  //const userExists = await prisma.user.findFirst({ where: { email } });
   if (!userExists || !userExists.password || !userExists.email) {
     return { error: "User not found" };
   }
   try {
     await signIn("credentials", {
       email: userExists.email,
-      password: password,
-      redirectTo: "/",
+      password,
+      //redirectTo: "/",
+      redirect: false,
     });
   } catch (error) {
     if (error instanceof AuthError) {
