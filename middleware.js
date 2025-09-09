@@ -5,13 +5,19 @@ export async function middleware(req) {
   const { nextUrl, cookies } = req;
   const pathname = nextUrl.pathname;
 
+  // Get token from next-auth
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: true, // use on live server
+  });
+  console.log("✅ Middleware called for:", req.nextUrl.pathname);
+
   // Skip API and static files
   if (pathname.startsWith("/api") || pathname.startsWith("/_next")) {
     return NextResponse.next();
   }
 
-  // Get token from next-auth
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const isLoggedIn = !!token;
   const companyId = token?.companyId || token?.user?.companyId;
 
@@ -20,8 +26,8 @@ export async function middleware(req) {
   const isPublicHome = pathname === "/";
   // Protect all dashboard routes
   const isDashboardRoute = pathname.startsWith("/dashboard");
-console.log("Dashboard Route: ", isDashboardRoute);
-console.log("LOGIN STATUS: ", isLoggedIn);
+  console.log("Dashboard Route: ", isDashboardRoute);
+  console.log("LOGIN STATUS: ", isLoggedIn);
 
   if (isLoggedIn && (isAuthRoute || isPublicHome)) {
     const lastVisited = cookies.get("last_route")?.value;

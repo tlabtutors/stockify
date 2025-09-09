@@ -2,7 +2,6 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "@/components/custom/Button";
 import { login } from "@/actions/login";
@@ -28,6 +27,7 @@ const Login = () => {
         setMessage({ type: "error", text: res.error });
       } else if (res?.success) {
         setMessage({ type: "success", text: res.success });
+        console.log("RESPONSE: ", res);
         setRedirecting(true);
         router.push("/dashboard/home");
       }
