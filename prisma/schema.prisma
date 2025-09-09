@@ -43,7 +43,7 @@ model Company {
   name      String           @unique
   domain    String           @unique
   users     User[]
-  inventory InventoryItem[]  // ✅ Added opposite side of relation
+  inventory InventoryItem[]  // Added opposite side of relation
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 }
@@ -58,12 +58,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?   // ✅ Fixed: removed @db.Text
-  access_token      String?   // ✅ Fixed
+  refresh_token     String?   // Fixed: removed @db.Text
+  access_token      String?   // Fixed
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?   // ✅ Fixed
+  id_token          String?   // Fixed
   session_state     String?
 
   @@unique([provider, providerAccountId])
@@ -137,3 +137,7 @@ type Image {
   isPrimary       Boolean  @default(false)
   createdAt       DateTime @default(now())
 }
+/* Alway run this command anytime you make changes to your prisma model
+ to sync changes to the database */
+ 
+// npx prisma generate npx prisma db push

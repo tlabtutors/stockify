@@ -41,15 +41,15 @@ const cardData = [
 
 const Items = () => {
   return (
-    <div className="flex flex-col w-full justify-center items-center  mt-20">
+    <div className="flex flex-col w-full justify-center items-center  mt-auto">
       <DsFormHeader
         title="All Composite Items"
         href={`/dashboard/dashboard/inventory/compositeitems/new`}
         elem={
           <div className="flex justify-between items-center gap-x-1">
             <Tooltip content="Create New Item">
-              <span className="flex justify-center items-center py-2 px-3 gap-x-1 bg-blue-500 text-white rounded-md font-normal text-[12px]">
-                <FaPlus size={15} />
+              <span className="flex justify-center items-center p-2 bg-blue-500 text-white rounded-md font-normal text-[12px]">
+                <FaPlus size={12} />
                 New
               </span>
             </Tooltip>

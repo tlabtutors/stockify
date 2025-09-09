@@ -184,7 +184,7 @@ export async function PUT(req) {
     const inventoryItem = await tenant("inventoryItem", req);
 
     // Get existing item to compare images
-    const existingItem = await inventoryItem.findFirst({
+    const existingItem = await inventoryItem.findUnique({
       where: { id },
     });
 

@@ -11,65 +11,37 @@ const MultipleImageUploader = ({
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
 
- const handleFiles = (files) => {
-   const imagePreviews = Array.from(files).map((file) => ({
-     file,
-     url: URL.createObjectURL(file),
-     id: Math.random().toString(36).substr(2, 9),
-     isNew: true,
-   }));
+  const handleFiles = (files) => {
+    const imagePreviews = Array.from(files).map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+      id: Math.random().toString(36).substr(2, 9),
+      isNew: true,
+    }));
 
-   setImages((prev) => {
-     const allImages = [...prev, ...imagePreviews];
+    setImages((prev) => {
+      const allImages = [...prev, ...imagePreviews];
+      return allImages.length === imagePreviews.length
+        ? markPrimary(allImages, imagePreviews[0].id)
+        : allImages;
+    });
+  };
 
-     // Check if there is already a primary (existing or new)
-     const hasPrimary =
-       [...existingImages, ...prev].some((img) => img.isPrimary) ||
-       allImages.some((img) => img.isPrimary);
+  const markPrimary = (imgArray, primaryId) =>
+    imgArray.map((img) => ({ ...img, isPrimary: img.id === primaryId }));
 
-     // If no primary yet, mark the first new image as primary
-     if (!hasPrimary && imagePreviews.length > 0) {
-       return markPrimary(allImages, imagePreviews[0].id);
-     }
-
-     return allImages;
-   });
- };
-
- const markPrimary = (imgArray, primaryId) =>
-   imgArray.map((img) => ({ ...img, isPrimary: img.id === primaryId }));
-
- const handleSetPrimary = (id, isExisting = false) => {
-   if (isExisting) {
-     // Reset both arrays
-     setExistingImages((prev) =>
-       prev.map((img) => ({
-         ...img,
-         isPrimary: img.id === id,
-       }))
-     );
-     setImages((prev) =>
-       prev.map((img) => ({
-         ...img,
-         isPrimary: false,
-       }))
-     );
-   } else {
-     // Reset both arrays
-     setExistingImages((prev) =>
-       prev.map((img) => ({
-         ...img,
-         isPrimary: false,
-       }))
-     );
-     setImages((prev) =>
-       prev.map((img) => ({
-         ...img,
-         isPrimary: img.id === id,
-       }))
-     );
-   }
- };
+  const handleSetPrimary = (id, isExisting = false) => {
+    if (isExisting) {
+      setExistingImages((prev) =>
+        prev.map((img) => ({
+          ...img,
+          isPrimary: img.id === id,
+        }))
+      );
+    } else {
+      setImages((prev) => markPrimary(prev, id));
+    }
+  };
 
   const handleRemoveImage = (index, isExisting = false) => {
     if (isExisting) {

@@ -137,7 +137,7 @@ export default function InventoryItemList() {
   };
 
   return (
-    <div className="w-full bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md font-sans">
+    <div className="w-full bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-xs font-sans">
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

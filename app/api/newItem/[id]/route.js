@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
     const { id } = params;
     const inventoryItem = await tenant("inventoryItem", req);
 
-    const item = await inventoryItem.findFirst({
+    const item = await inventoryItem.findUnique({
       where: { id },
       include: { images: true }, // include images if needed
     });
@@ -34,9 +34,8 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
     const inventoryItem = await tenant("inventoryItem", req);
-
     // Ensure only the user's company item can be deleted
-    const existingItem = await inventoryItem.findFirst({ where: { id } });
+    const existingItem = await inventoryItem.findUnique({ where: { id } });
     if (!existingItem) {
       return NextResponse.json(
         { ok: false, error: "Item not found or you are not authorized" },
@@ -58,4 +57,3 @@ export async function DELETE(req, { params }) {
     );
   }
 }
-

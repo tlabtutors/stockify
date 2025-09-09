@@ -1,4 +1,3 @@
-// adapters/tenantPrismaAdapter.js
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { uniqueCoyNumGen } from "@/lib/uniqueCoyNumGen";
 import { ObjectId } from "bson";

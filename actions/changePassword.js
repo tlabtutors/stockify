@@ -1,5 +1,4 @@
 "use server";
-
 import { prisma } from "@/prisma/prisma";
 import { compare, hash } from "bcryptjs";
 import jwt from "jsonwebtoken";

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { privateRoutes } from "./routes";
 
 export async function middleware(req) {
   const { nextUrl, cookies } = req;
@@ -13,12 +12,15 @@ export async function middleware(req) {
 
   // Get token from next-auth
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  console.log("JWT token:", token);
   const isLoggedIn = !!token;
   const companyId = token?.companyId || token?.user?.companyId;
 
+  // Redirect logged-in users from auth routes and home to dashboard
   const isAuthRoute = pathname.startsWith("/auth");
   const isPublicHome = pathname === "/";
+  // Protect all dashboard routes
+  const isDashboardRoute = pathname.startsWith("/dashboard");
+
   if (isLoggedIn && (isAuthRoute || isPublicHome)) {
     const lastVisited = cookies.get("last_route")?.value;
     if (lastVisited) {
@@ -28,12 +30,13 @@ export async function middleware(req) {
       new URL(companyId ? `/dashboard/home` : "/dashboard/home", req.url)
     );
   }
+
+  // Redirect from /dashboard to /dashboard/home
   if (isLoggedIn && pathname === "/dashboard") {
     return NextResponse.redirect(new URL(`/dashboard/home`, req.url));
   }
 
-  const isProtected = privateRoutes.some((route) => pathname.startsWith(route));
-  if (!isLoggedIn && isProtected) {
+  if (isDashboardRoute && !isLoggedIn) {
     const response = NextResponse.redirect(new URL("/auth/login", req.url));
     response.cookies.set("last_route", pathname, {
       path: "/",
@@ -43,6 +46,7 @@ export async function middleware(req) {
     return response;
   }
 
+  // Additional company route protection
   if (pathname.startsWith("/company/")) {
     const pathCompanyId = pathname.split("/")[2];
     if (!isLoggedIn || !companyId || companyId !== pathCompanyId) {

@@ -17,7 +17,7 @@ const DashboardFooter = () => {
               Manage your inventory on the go!
             </h3>
             <p className="text-gray-800">
-              Experience the ease of managing your inventory with the Zoho
+              Experience the ease of managing your inventory with the Stockiffy
               Inventory mobile app for Android & iOS.
             </p>
           </div>
@@ -45,7 +45,9 @@ const DashboardFooter = () => {
           {/* 3 Responsive Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
-              <h4 className="font-semibold mb-1 uppercase">Other Zoho Apps</h4>
+              <h4 className="font-semibold mb-1 uppercase">
+                Other Stockiffy Apps
+              </h4>
               <nav className="space-y-3 mt-5">
                 <Link href="/dashboard/home" className="block text-sm ">
                   Accounting Software
@@ -117,7 +119,7 @@ const DashboardFooter = () => {
                 <b>Monday to Friday 8:00 AM to 5:00 PM</b>
               </span>
               <span>
-                Zoho Inventory Helpline: <b>27 0000 0000</b> (Toll Free)
+                Stockiffy Inventory Helpline: <b>27 0000 0000</b> (Toll Free)
               </span>
             </div>
           </div>

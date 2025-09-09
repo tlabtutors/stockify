@@ -1,4 +1,3 @@
-// auth.config.js
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "../schemas";
@@ -6,17 +5,17 @@ import { prisma } from "../prisma/prisma";
 import bcrypt from "bcryptjs";
 
 const authConfig = {
-  //trustHost: true, //use on live server
-  //useSecureCookies: true, //use on live server
+  trustHost: true, //use on live server
+  useSecureCookies: true, //use on live server
   cookies: {
     sessionToken: {
-      //name: "__Secure-authjs.session-token", //use on live server
+      name: "__Secure-authjs.session-token", //use on live server
       options: {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        //  secure: true, //use on live server
-        //   domain: process.env.COOKIE_DOMAIN, //use on live server
+        secure: true, //use on live server
+        domain: process.env.COOKIE_DOMAIN, //use on live server
       },
     },
   },

@@ -13,7 +13,7 @@ export const login = async (data) => {
   const userExists = await prisma.user.findUnique({ where: { email } });
   //const userExists = await prisma.user.findFirst({ where: { email } });
   if (!userExists || !userExists.password || !userExists.email) {
-    return { error: "User not found" };
+    return { error: "User not found!" };
   }
   try {
     await signIn("credentials", {

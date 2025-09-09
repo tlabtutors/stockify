@@ -12,19 +12,17 @@ export const forgotPassword = async (data) => {
     if (!validatedData.success) {
       return { success: false, message: "Invalid input data" };
     }
-
+reset-password
     const { email } = validatedData.data;
-    console.log("EMAIL: ", email);
-
     // Find user by email
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return { success: false, message: "User not found" };
+      return { success: false, message: "User not found!" };
     }
 
     // Generate token + expiration
     const { token, tokenExpiration } = generateVerificationToken();
-    const resetLink = `${process.env.APP_BASE_URL}/auth/reset-password?token=${token}`;
+    const resetLink = `${process.env.APP_BASE_URL}/auth/?token=${token}`;
 
     // Save reset token to DB
     await prisma.user.update({

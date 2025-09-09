@@ -120,7 +120,7 @@ const NewItemEntryForm = () => {
         setImages([]); // clear images
         // redirect after short delay
         setTimeout(() => {
-          router.push("/dashbaord/inventory/items");
+          router.push("/dashboard/inventory/items");
         }, 1200);
       }
     } catch (err) {
@@ -131,7 +131,7 @@ const NewItemEntryForm = () => {
     }
   };
   return (
-    <div className="w-full bg-gray-100 mt-30 mb-10">
+    <div className="w-full bg-gray-50 m-auto mb-10">
       <form onSubmit={handleSubmit} className="p-5">
         <div>
           <div className="flex justify-between gap-x-5">
@@ -730,7 +730,7 @@ const NewItemEntryForm = () => {
           <div className="mt-6 col-span-1">
             <button
               type="submit"
-              className="bg-blue-400 hover:bg-blue-600 text-white px-6 py-2 rounded-md font-medium disabled:opacity-50"
+              className="bg-blue-400 hover:bg-blue-600 text-white px-2 py-1 rounded-md font-medium disabled:opacity-50"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Adding Item..." : "Add Item"}

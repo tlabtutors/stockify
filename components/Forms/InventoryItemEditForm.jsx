@@ -221,7 +221,7 @@ const InventoryItemEditForm = () => {
   }
 
   return (
-    <div className="w-full bg-gray-100 mt-30 mb-10">
+    <div className="w-full bg-gray-100 mt-auto mb-10">
       <form onSubmit={handleSubmit} className="p-5">
         <div>
           <div className="flex justify-between gap-x-5">

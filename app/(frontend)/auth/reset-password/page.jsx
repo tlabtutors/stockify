@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "@/components/custom/Button";
 import { resetPassword } from "@/actions/resetPasword";
 
@@ -13,6 +14,8 @@ const ResetPassword = () => {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -58,21 +61,45 @@ const ResetPassword = () => {
           Reset Your Password
         </h2>
 
-        <input
-          type="password"
-          placeholder="New Password"
-          className="w-full border p-2 rounded mb-2 text-xs"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
+        {/* New Password Field with Show/Hide */}
+        <div className="relative mb-2">
+          <input
+            type={showNewPassword ? "text" : "password"}
+            placeholder="New Password"
+            className="w-full border p-2 rounded text-xs pr-10"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowNewPassword(!showNewPassword)}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            {showNewPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+          </button>
+        </div>
 
-        <input
-          type="password"
-          placeholder="Confirm New Password"
-          className="w-full border p-2 rounded mb-2 text-xs"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+        {/* Confirm Password Field with Show/Hide */}
+        <div className="relative mb-2">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Confirm New Password"
+            className="w-full border p-2 rounded text-xs pr-10"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            {showConfirmPassword ? (
+              <FaEyeSlash size={16} />
+            ) : (
+              <FaEye size={16} />
+            )}
+          </button>
+        </div>
 
         {message && (
           <p

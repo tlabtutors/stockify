@@ -104,7 +104,7 @@ export default function ItemDetail() {
     fetchItems();
   }, [page, search]);
   const handleItemClick = (id) => {
-    router.push(`/inventory/itemDetails/${id}`);
+    router.push(`/dashboard/inventory/itemDetails/${id}`);
   };
   const itemDetails = singleItem || fallbackItem;
   // Process the images array to find the main image and thumbnails
@@ -112,13 +112,13 @@ export default function ItemDetail() {
   const thumbnails = itemDetails.images?.filter((img) => !img.isPrimary);
 
   return (
-    <div className="flex bg-gray-50 min-h-screen font-sans mt-14">
+    <div className="flex bg-gray-50 min-h-screen font-sans">
       {/* Sidebar */}
       <aside className="w-1/4 max-w-xs bg-white border-r border-gray-200 p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Active Items</h2>
           <Link
-            href={`/inventory/items/new`}
+            href={`/dashboard/inventory/items/new`}
             className="flex justify-center items-center w-5 h-5 p-3 rounded-sm bg-blue-500 text-white hover:bg-blue-600"
           >
             <Tooltip content="Create New Item" placement="bottom">
@@ -178,18 +178,18 @@ export default function ItemDetail() {
           </div>
           <div className="flex items-center space-x-2">
             <Link
-              href={`/inventory/items/edit/${id}`}
+              href={`/dashboard/inventory/items/edit/${id}`}
               className="flex  justify-center items-center text-sm p-2 text-black rounded-md border-1 border-gray-200 bg-gray-100"
             >
               <Pencil className="h-4 w-4 cursor-pointer" />
             </Link>
             <button
-              href={`/inventory/items/edit/${id}`}
-              className="flex items-center px-2 py-2 border rounded-md bg-blue-400 text-white"
+              href={`/dashboard/inventory/items/edit/${id}`}
+              className="flex items-center px-2 py-1 border rounded-md bg-blue-400 text-white"
             >
               Adjust Stock
             </button>
-            <button className="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700">
+            <button className="px-2 py-1 rounded-md text-white bg-blue-600 hover:bg-blue-700">
               More
             </button>
           </div>

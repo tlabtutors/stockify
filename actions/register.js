@@ -28,13 +28,12 @@ export const register = async (data) => {
       where: { email: lowerCasedEmail },
     });
     if (userExists) return { error: "User already exists" };
-
-    // ✅ Step 1: Check if company already exists
+    // Step 1: Check if company already exists
     let company = await prisma.company.findFirst({
       where: { name: companyName },
     });
 
-    // ✅ Step 2: If not, create company with domain
+    // Step 2: If not, create company with domain
     if (!company) {
       const domain = `${companyName
         .toLowerCase()

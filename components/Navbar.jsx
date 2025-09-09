@@ -3,7 +3,7 @@
 import React from "react";
 import { PiClockClockwiseLight } from "react-icons/pi";
 import SearchInput from "./SearchInput";
-import { Bell, Settings, LogOut } from "lucide-react";
+import { Bell, Settings } from "lucide-react";
 import { GoPlus } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
 import { TbGridDots } from "react-icons/tb";
@@ -11,10 +11,12 @@ import Avatar from "./Avatar";
 import Tooltip from "@/components/Tooltip";
 import Logout from "@/actions/logout";
 import Link from "next/link";
+import { useSession } from "@/context/SessionProvider";
 
 export const Navbar = () => {
+  const session = useSession();
   return (
-    <div className="fixed top-0 left-[15%] w-[85%] z-50 flex justify-between py-2 px-3 bg-gray-50 border-b-gray-100">
+    <div className="fixed text-[12px] top-0 left-[15%] w-[85%] z-50 flex justify-between py-2 px-3 bg-gray-50 border-b-gray-100">
       {/* Left Section */}
       <div className="flex gap-x-2 items-center">
         <PiClockClockwiseLight size={20} />
@@ -46,7 +48,7 @@ export const Navbar = () => {
 
         <Avatar
           //src="https://example.com/avatar.jpg"
-          name="Tech Pundit"
+          name={session?.user.name || "NA"}
           size="w-5 h-5"
           rounded="rounded-full"
         />
