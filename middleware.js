@@ -20,6 +20,8 @@ export async function middleware(req) {
   const isPublicHome = pathname === "/";
   // Protect all dashboard routes
   const isDashboardRoute = pathname.startsWith("/dashboard");
+console.log("Dashboard Route: ", isDashboardRoute);
+console.log("LOGIN STATUS: ", isLoggedIn);
 
   if (isLoggedIn && (isAuthRoute || isPublicHome)) {
     const lastVisited = cookies.get("last_route")?.value;
